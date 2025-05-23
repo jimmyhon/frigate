@@ -1,6 +1,6 @@
 import numpy as np
 
-def finish_init(self, interpreter):
+def tflite_init(self, interpreter):
     self.interpreter = interpreter
 
     self.interpreter.allocate_tensors()

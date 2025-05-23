@@ -6,7 +6,7 @@ from typing_extensions import Literal
 
 from frigate.detectors.detection_api import DetectionApi
 from frigate.detectors.detector_config import BaseDetectorConfig
-from .tflite import finish_init, tflite_detect_raw
+from ..detector_utils import tflite_init, tflite_detect_raw
 
 try:
     from tflite_runtime.interpreter import Interpreter
@@ -33,7 +33,7 @@ class CpuTfl(DetectionApi):
             num_threads=detector_config.num_threads or 3,
         )
 
-        finish_init(self, interpreter)
+        tflite_init(self, interpreter)
 
     def detect_raw(self, tensor_input):
         return tflite_detect_raw(self, tensor_input)
