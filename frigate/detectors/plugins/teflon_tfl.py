@@ -4,7 +4,7 @@ from typing_extensions import Literal
 
 from frigate.detectors.detection_api import DetectionApi
 from frigate.detectors.detector_config import BaseDetectorConfig
-from .tflite import load_delegate_interpreter, finish_init, tflite_detect_raw
+from ..detector_utils import tflite_load_delegate_interpreter, tflite_init, tflite_detect_raw
 
 
 logger = logging.getLogger(__name__)
@@ -25,8 +25,8 @@ class TeflonTfl(DetectionApi):
         delegate_library = "/usr/lib/teflon/libteflon.so"
         device_config = {}
 
-        interpreter = load_delegate_interpreter(delegate_library, detector_config, device_config)
-        finish_init(self, interpreter)
+        interpreter = tflite_load_delegate_interpreter(delegate_library, detector_config, device_config)
+        tflite_init(self, interpreter)
 
     def detect_raw(self, tensor_input):
         return tflite_detect_raw(self, tensor_input)
