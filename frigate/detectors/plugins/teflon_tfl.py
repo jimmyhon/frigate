@@ -3,7 +3,7 @@ import logging
 from typing_extensions import Literal
 
 from frigate.detectors.detection_api import DetectionApi
-from frigate.detectors.detector_config import BaseDetectorConfig
+from frigate.detectors.detector_config import BaseDetectorConfig, ModelTypeEnum
 
 from ..detector_utils import (
     tflite_detect_raw,
@@ -23,6 +23,10 @@ class TeflonDetectorConfig(BaseDetectorConfig):
 
 class TeflonTfl(DetectionApi):
     type_key = DETECTOR_KEY
+    supported_models = [
+        ModelTypeEnum.ssd,
+        ModelTypeEnum.yologeneric,
+    ]
 
     def __init__(self, detector_config: TeflonDetectorConfig):
         # Location in Debian's mesa-teflon-delegate
@@ -32,7 +36,7 @@ class TeflonTfl(DetectionApi):
         interpreter = tflite_load_delegate_interpreter(
             delegate_library, detector_config, device_config
         )
-        tflite_init(self, interpreter)
+        tflite_init(self, interpreter, detector_config)
 
     def detect_raw(self, tensor_input):
         return tflite_detect_raw(self, tensor_input)

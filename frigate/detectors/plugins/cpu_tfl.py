@@ -36,7 +36,7 @@ class CpuTfl(DetectionApi):
                 num_threads=detector_config.num_threads or 3,
             )
 
-        tflite_init(self, interpreter)
+        tflite_init(self, interpreter, detector_config)
 
     def detect_raw(self, tensor_input):
         return tflite_detect_raw(self, tensor_input)
